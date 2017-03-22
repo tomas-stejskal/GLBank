@@ -46,7 +46,12 @@ public class DatabaseInterface {
             }
         }
         /**********************************************************************/
-        //login user to system if login credentials is OK then retrun user ID, if login credentials is wrong then return -1
+        /**
+         * login user to system if login credentials is OK then return user ID, if login credentials is wrong then return -1
+         * @param username
+         * @param password
+         * @return 
+         */
         public int Login(String username,String password){
             String query = "select idemp from loginemployees where login like'"+username+"' and password like '"+password+"';";
             int employee_id = -1;
@@ -68,7 +73,10 @@ public class DatabaseInterface {
             return employee_id;
         }
         /**********************************************************************/
-        // save login hystory to database
+        /**
+         * save login history to database
+         * @param id 
+         */
         public void HistoryOfLogin(int id){
             //mysql format YYYY-MM-DD HH:MM:SS
             Date dTime = new Date();
@@ -87,6 +95,13 @@ public class DatabaseInterface {
             }
         }
         /**********************************************************************/
+        /**
+         * get all information about user:
+         * first name, last name, email, permissions
+         * parm must by use ID
+         * @param id
+         * @return 
+         */
         public String[] getEmpNames(int id){
             String query = " select * from employees where idemp = "+id+" ;";
             String[] result = new String[4];
