@@ -123,4 +123,13 @@ public class DatabaseInterface {
             }
             return null;
         }
+        /**********************************************************************/
+        /**
+         * verificator for change password input.
+         * @param id
+         * @return 
+         */
+        public int changePassVerif(int id,String old_password,String new_password){
+            return 0;
+        }
 }
