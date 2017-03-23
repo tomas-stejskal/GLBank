@@ -71,5 +71,21 @@ public class ChangePasswordDB {
             }
             return isValid;
         }
-        
+        /**
+         * this method change password
+         * @param id
+         * @param password 
+         */
+        public void chngePassword(int id,String password){
+            String query = "update loginemployees set password='"+password+"' where idemp="+id+";";   
+            if (OpenConnetion()){  
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                CloseConnection();
+            }
+        }
 }

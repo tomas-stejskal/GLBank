@@ -23,6 +23,9 @@ public class ChngePasswordDialog extends javax.swing.JDialog {
         user_id = id;
         initComponents();
         this.setLocationRelativeTo(null);
+        jLabel4.setText("");
+        jLabel5.setText("");
+        jLabel6.setText("");
     }
 
     ChngePasswordDialog() {
@@ -145,7 +148,8 @@ public class ChngePasswordDialog extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ChangePasswordDB cpDB = new ChangePasswordDB();
         if (isInputsValid()){
-            //crrect
+            cpDB.chngePassword(user_id, String.valueOf(jPasswordField2.getPassword()));
+            this.dispose();
         }else{
             
             if (!cpDB.isOldPassExist(WIDTH, String.valueOf(jPasswordField1.getPassword())))
@@ -171,18 +175,19 @@ public class ChngePasswordDialog extends javax.swing.JDialog {
         if (String.valueOf(jPasswordField1.getPassword()).equals("") || jPasswordField2.getText().equals("") || String.valueOf(jPasswordField3.getPassword()).equals("")){
             isValid = false;
         }
-        if (jPasswordField1.getText().equals(jPasswordField2.getText())){
+       /* if (jPasswordField1.getText().equals(jPasswordField2.getText())){
             isValid = false;
-        }
-        if (!jPasswordField2.getText().equals(jPasswordField3.getText())){
+        }*/
+        if (!Arrays.equals(jPasswordField2.getPassword(), jPasswordField3.getPassword())){
             isValid = false;
         }
         if (String.valueOf(jPasswordField2.getPassword()).length() < 6){
             isValid = false;
         }
-        if (cpDB.isOldPassExist(user_id, String.valueOf(jPasswordField1.getPassword()))){
+        if (!cpDB.isOldPassExist(user_id, String.valueOf(jPasswordField1.getPassword()))){
             isValid = false;
         }
+        //System.out.println(isValid);
         return isValid;
     }
     /**
