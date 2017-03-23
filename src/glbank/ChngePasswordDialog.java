@@ -141,11 +141,23 @@ public class ChngePasswordDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        isMissingCred();
+        ChangePasswordDB cpDB = new ChangePasswordDB();
+        isOldPcorr();
+        if (!isMissingCred() && isOldPcorr()){
+            
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
     
+    private boolean isOldPcorr(){
+        ChangePasswordDB cpDB = new ChangePasswordDB();
+        boolean isOll = cpDB.isOldPassExist(user_id, String.valueOf(jPasswordField1.getPassword()));
+        if (!isOll){
+            jLabel4.setText("Wrong old password!");
+        }
+        return isOll;
+    }
     
-    private void isMissingCred(){
+    private boolean isMissingCred(){
         boolean isMissinng = false;
         if(jPasswordField1.getText().equals("")){
             isMissinng = true;
@@ -159,6 +171,7 @@ public class ChngePasswordDialog extends javax.swing.JDialog {
             isMissinng = true;
             jLabel6.setText("this field is mandatory");
         }
+        return isMissinng;
     }
     /**
      * @param args the command line arguments
