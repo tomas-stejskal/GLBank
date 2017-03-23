@@ -5,6 +5,8 @@
  */
 package glbank;
 
+import java.util.Arrays;
+
 /**
  *
  * @author tomi
@@ -142,36 +144,46 @@ public class ChngePasswordDialog extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ChangePasswordDB cpDB = new ChangePasswordDB();
-        isOldPcorr();
-        if (!isMissingCred() && isOldPcorr()){
+        if (isInputsValid()){
+            //crrect
+        }else{
             
+            if (!cpDB.isOldPassExist(WIDTH, String.valueOf(jPasswordField1.getPassword())))
+                jLabel4.setText("incorrect old password");
+            if (jPasswordField2.getPassword().length < 6)
+                jLabel5.setText("minimum lenght of password is 6");      
+            if (!Arrays.equals(jPasswordField2.getPassword(), jPasswordField3.getPassword()))
+                jLabel6.setText("password do not match");
+            if(String.valueOf(jPasswordField1.getPassword()).equals(""))
+                jLabel4.setText("this field is mandatory");
+            if(String.valueOf(jPasswordField2.getPassword()).equals(""))
+                jLabel5.setText("this field is mandatory");
+            if(String.valueOf(jPasswordField3.getPassword()).equals(""))
+                jLabel6.setText("this field is mandatory");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
     
-    private boolean isOldPcorr(){
-        ChangePasswordDB cpDB = new ChangePasswordDB();
-        boolean isOll = cpDB.isOldPassExist(user_id, String.valueOf(jPasswordField1.getPassword()));
-        if (!isOll){
-            jLabel4.setText("Wrong old password!");
-        }
-        return isOll;
-    }
     
-    private boolean isMissingCred(){
-        boolean isMissinng = false;
-        if(jPasswordField1.getText().equals("")){
-            isMissinng = true;
-            jLabel4.setText("this field is mandatory");
+    
+    private boolean isInputsValid(){
+        ChangePasswordDB cpDB = new ChangePasswordDB();
+        boolean isValid = true;
+        if (String.valueOf(jPasswordField1.getPassword()).equals("") || jPasswordField2.getText().equals("") || String.valueOf(jPasswordField3.getPassword()).equals("")){
+            isValid = false;
         }
-        if(jPasswordField2.getText().equals("")){
-            isMissinng = true;
-            jLabel5.setText("this field is mandatory");
+        if (jPasswordField1.getText().equals(jPasswordField2.getText())){
+            isValid = false;
         }
-        if(jPasswordField3.getText().equals("")){
-            isMissinng = true;
-            jLabel6.setText("this field is mandatory");
+        if (!jPasswordField2.getText().equals(jPasswordField3.getText())){
+            isValid = false;
         }
-        return isMissinng;
+        if (String.valueOf(jPasswordField2.getPassword()).length() < 6){
+            isValid = false;
+        }
+        if (cpDB.isOldPassExist(user_id, String.valueOf(jPasswordField1.getPassword()))){
+            isValid = false;
+        }
+        return isValid;
     }
     /**
      * @param args the command line arguments
