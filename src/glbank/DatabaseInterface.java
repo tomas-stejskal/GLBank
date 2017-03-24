@@ -11,6 +11,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -124,5 +126,56 @@ public class DatabaseInterface {
             return null;
         }
         /**********************************************************************/
+        /**
+         * function return list of all clients from database for clients combobox
+         * @param onlyActice
+         * @return 
+         */
+        public List<Clients> getListOfAllClients(boolean onlyActice){
+            String query;
+            if (onlyActice){
+                query = "select * from Clients where disable like 'F' order by lastname asc;";
+            }else{
+                query = "select * from Clients order by lastname asc;";
+            }
+            
+            List<Clients> cl_list = new ArrayList<Clients>();
+            
+            if (OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    ResultSet rs =  state.executeQuery(query);
+                    while(rs.next()){
+                        Clients pom = new Clients();
+                        pom.setIdc( rs.getInt("idc"));
+                        pom.setFirst_name(rs.getString("firstname"));
+                        pom.setLast_name(rs.getString("lastname"));
+                        if (rs.getString("disable").equals("F")){
+                            pom.setIsAcrive(true);
+                        }else{
+                            pom.setIsAcrive(false);
+                        }
+                        cl_list.add(pom);
+                    }
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                CloseConnection();
+                
+                return cl_list;
+            }
+            return null;
+        }
+        /***********************************************************************/
+        
+        public ClientDetail getCelientDetail(int id){
+            String qurey = "select Clients.idc,firstname,lastname,disable,street,housenumber,postcode,dob,email from Clients "
+                    + "inner join ClientDetails on ClientDetails.idc=Clients.idc where Clients.idc="+id+";";
+            ClientDetail cd = new ClientDetail();
+            
+            
+            
+            return cd;
+        }
 
 }
