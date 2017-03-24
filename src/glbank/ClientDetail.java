@@ -13,5 +13,10 @@ public class ClientDetail {
     public int idc;
     public String firstname;
     public String lastanme;
-    public boolean isDisable;
+    public boolean isActive;
+    public String street;
+    public int houseNumber;
+    public String postcode;
+    public String dob;
+    public String email;
 }

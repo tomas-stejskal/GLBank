@@ -167,14 +167,41 @@ public class DatabaseInterface {
             return null;
         }
         /***********************************************************************/
-        
+        /**
+         * this method returns list of all details about the client
+         * @param id
+         * @return 
+         */
         public ClientDetail getCelientDetail(int id){
-            String qurey = "select Clients.idc,firstname,lastname,disable,street,housenumber,postcode,dob,email from Clients "
+            String query = "select Clients.idc,firstname,lastname,disable,street,housenumber,postcode,dob,email from Clients "
                     + "inner join ClientDetails on ClientDetails.idc=Clients.idc where Clients.idc="+id+";";
             ClientDetail cd = new ClientDetail();
             
-            
-            
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    ResultSet rs =  state.executeQuery(query);
+                    if(rs.next()){
+                        cd.idc = rs.getInt("idc");
+                        cd.firstname = rs.getString("firstname");
+                        cd.lastanme = rs.getString("lastname");
+                        cd.email = rs.getString("email");
+                        cd.street = rs.getString("street");
+                        cd.postcode = rs.getString("postcode");
+                        cd.houseNumber = rs.getInt("housenumber");
+                        if(rs.getString("disable").equals("F")){
+                            cd.isActive = true;
+                        }else{
+                            cd.isActive = false;
+                        }
+                    }
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                
+                
+                CloseConnection();
+            }            
             return cd;
         }
 
