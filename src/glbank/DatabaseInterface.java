@@ -194,6 +194,7 @@ public class DatabaseInterface {
                         }else{
                             cd.isActive = false;
                         }
+                        cd.dob = rs.getString("dob");
                     }
                 }catch(Exception e){
                     System.out.println(e.toString());
@@ -203,6 +204,39 @@ public class DatabaseInterface {
                 CloseConnection();
             }            
             return cd;
+        }
+        /**********************************************************************/
+        /**
+         * this method activate client
+         * @param id 
+         */
+        public void activateClient(int id){
+            String query = "update clients set disable='F' where idc="+id+";";
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                CloseConnection();
+            }
+        }
+        /**
+         * this method deactivate client
+         * @param id 
+         */
+        public void deactivateClient(int id){
+            String query = "update clients set disable='T' where idc="+id+";";
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                CloseConnection();
+            }
         }
 
 }
