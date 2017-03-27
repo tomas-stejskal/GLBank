@@ -5,6 +5,7 @@
  */
 package glbank;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -632,7 +633,12 @@ public class MainWindow extends javax.swing.JFrame {
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         boolean isInputValid = addClientInputValidation();
         if(isInputValid){
-            System.out.println("valid");
+            Date dat = jDateChooser1.getDate();
+            String pattern = "yyyy-MM-dd";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            String date = simpleDateFormat.format(dat);
+            
+            System.out.println(date);
         }else{
             System.out.println("INvalid");
         }
@@ -645,7 +651,7 @@ public class MainWindow extends javax.swing.JFrame {
         
         for (int i =0;i<clientlist.size();i++){
             cl = clientlist.get(i);
-            jComboBox1.addItem(cl.getLast_name()+" "+cl.getLast_name()+" "+cl.getIdc());
+            jComboBox1.addItem(cl.getLast_name()+" "+cl.getFirst_name()+" "+cl.getIdc());
         }
         jComboBox1.setSelectedIndex(0);
     }
