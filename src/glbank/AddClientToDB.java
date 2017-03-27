@@ -9,6 +9,7 @@ import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Random;
 
 /**
  *
@@ -66,8 +67,26 @@ public class AddClientToDB {
                 }
                 CloseConnection();
             }
-            
+            System.out.println(generatePassword());
             return isUniqu;
+        }
+        
+        private String generatePassword(){
+            String passw = "";
+            Random rand = new Random();
+            int cross;
+            for (int i=0;i<8;i++){
+                cross = rand.nextInt(3);
+                if(cross == 0){
+                    passw += (char) (rand.nextInt(10) + 48);
+                }else if(cross == 1){
+                    passw += (char)(rand.nextInt(26) + 65);
+                }else{
+                    passw += (char) (rand.nextInt(26) + 97);
+                }
+            }
+            
+            return passw;
         }
         
 }
