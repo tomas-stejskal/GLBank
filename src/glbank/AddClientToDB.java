@@ -14,7 +14,7 @@ import java.sql.Statement;
  *
  * @author tomi
  */
-public class ChangePasswordDB {
+public class AddClientToDB {
         String url = "jdbc:mysql://localhost:3306/";
         String dbName = "glbank";
         String driver = "com.mysql.jdbc.Driver";
@@ -45,47 +45,29 @@ public class ChangePasswordDB {
         }
         /**********************************************************************/
         /**
-         * Verified that user enter correct old password in Change Password dialog.
-         * @param id
+         * verified that user name is unique
+         * @param login
          * @return 
          */
-        public boolean isOldPassExist(int id,String old_pass){
-            String query = "select password from loginemployees where idemp = "+id+";";
-            boolean isValid = false;
-            String result = "";
-            if (OpenConnetion()){
+        public boolean isLoginUnique(String login){
+            String query = "select * from loginclient where login like '"+login+"';";
+            boolean isUniqu = false;
+            if(OpenConnetion()){
                 try{
                     Statement state = conn.createStatement();
                     ResultSet rs =  state.executeQuery(query);
                     if(rs.next()){
-                        result = rs.getString("password");
-                        if(result.equals(old_pass)){
-                            isValid = true;
-                        }
+                        isUniqu = false;
+                    }else{
+                        isUniqu = true;
                     }
                 }catch(Exception e){
                     System.out.println(e.toString());
                 }
-                
                 CloseConnection();
             }
-            return isValid;
+            
+            return isUniqu;
         }
-        /**
-         * this method change password
-         * @param id
-         * @param password 
-         */
-        public void chngePassword(int id,String password){
-            String query = "update loginemployees set password='"+password+"' where idemp="+id+";";   
-            if (OpenConnetion()){  
-                try{
-                    Statement state = conn.createStatement();
-                    state.executeUpdate(query);
-                }catch(Exception e){
-                    System.out.println(e.toString());
-                }
-                CloseConnection();
-            }
-        }
+        
 }
