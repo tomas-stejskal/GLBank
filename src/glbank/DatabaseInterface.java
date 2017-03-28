@@ -173,7 +173,7 @@ public class DatabaseInterface {
          * @return 
          */
         public ClientDetail getCelientDetail(int id){
-            String query = "select Clients.idc,firstname,lastname,disable,street,housenumber,postcode,dob,email from Clients "
+            String query = "select Clients.idc,firstname,lastname,disable,street,housenumber,postcode,dob,email,city from Clients "
                     + "inner join ClientDetails on ClientDetails.idc=Clients.idc where Clients.idc="+id+";";
             ClientDetail cd = new ClientDetail();
             
@@ -189,6 +189,7 @@ public class DatabaseInterface {
                         cd.street = rs.getString("street");
                         cd.postcode = rs.getString("postcode");
                         cd.houseNumber = rs.getInt("housenumber");
+                        cd.city = rs.getString("city");
                         if(rs.getString("disable").equals("F")){
                             cd.isActive = true;
                         }else{

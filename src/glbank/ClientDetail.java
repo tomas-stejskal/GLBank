@@ -19,4 +19,5 @@ public class ClientDetail {
     public String postcode;
     public String dob;
     public String email;
+    public String city;
 }
