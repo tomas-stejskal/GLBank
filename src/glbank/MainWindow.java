@@ -699,14 +699,28 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        boolean isInputValid = addClientInputValidation();
+        /*add client*/
+        boolean isInputValid = addClientInputValidation(); 
         if(isInputValid){
             Date dat = jDateChooser1.getDate();
             String pattern = "yyyy-MM-dd";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
             String date = simpleDateFormat.format(dat);
             
-            System.out.println(date);
+            AddClientToDB addClient = new AddClientToDB();
+            /*firstname,lastname,email,username,dob,street,postcode,houseNumber,city*/
+            addClient.insertNewClient(jTextField9.getText(), jTextField10.getText(), jTextField11.getText(),
+                    jTextField12.getText(), date, jTextField13.getText(), jTextField14.getText(), jTextField15.getText(), jTextField17.getText());
+            jTextField9.setText("");
+            jTextField10.setText("");
+            jTextField11.setText("");
+            jTextField12.setText("");
+            jTextField13.setText("");
+            jTextField14.setText("");
+            jTextField15.setText("");
+            jTextField17.setText("");
+            jComboBox1.removeAllItems();
+            initCombobox();
         }else{
             System.out.println("INvalid");
         }

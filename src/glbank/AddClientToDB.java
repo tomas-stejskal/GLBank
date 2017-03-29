@@ -16,13 +16,13 @@ import java.util.Random;
  * @author tomi
  */
 public class AddClientToDB {
-        String url = "jdbc:mysql://localhost:3306/";
-        String dbName = "glbank";
-        String driver = "com.mysql.jdbc.Driver";
-        String username = "root";
-        String password = "1234";
+        private String url = "jdbc:mysql://localhost:3306/";
+        private String dbName = "glbank";
+        private String driver = "com.mysql.jdbc.Driver";
+        private String username = "root";
+        private String password = "1234";
         
-        Connection conn = null;
+        private Connection conn = null;
         
         private boolean OpenConnetion(){
             try{
@@ -67,7 +67,6 @@ public class AddClientToDB {
                 }
                 CloseConnection();
             }
-            System.out.println(generatePassword());
             return isUniqu;
         }
         
@@ -87,6 +86,80 @@ public class AddClientToDB {
             }
             
             return passw;
+        }
+        /**
+         * this method insert client to database
+         * @param f_name
+         * @param l_name 
+         */
+        
+        public void insertNewClient(String f_name,String l_name,String email,String username,String dob, String street,String postcode,String house_number,String city){
+            String query = "insert into clients(firstname,lastname) values('"+f_name+"','"+l_name+"');";
+            String passw = generatePassword();
+            String client_id = "";
+            
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                CloseConnection();
+            }
+            client_id = getNewUserId(f_name, l_name);
+            insertToClientdetails(client_id,street,house_number,postcode,dob,email,city);
+            insertToClientlogin(client_id,username,passw);
+        }
+        
+        private String getNewUserId(String f_name,String l_name){
+            String result = "";
+            String query = "select max(idc) from clients where firstname like '"+f_name+"' and lastname like '"+l_name+"';";
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    ResultSet rs =  state.executeQuery(query);
+                    if(rs.next()){
+                        result = rs.getString("max(idc)");
+                    }
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                
+                CloseConnection();
+            }
+            
+            return result;
+        }
+        
+        private void insertToClientdetails(String idc,String street,String housenumber,String postcode,String dob,String email,String city){
+            String query = "insert into clientdetails(idc,street,housenumber,postcode,dob,email,city)"
+                    + "values('"+idc+"','"+street+"','"+housenumber+"','"+postcode+"','"+dob+"','"+email+"','"+city+"');";
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                
+                CloseConnection();
+            }
+        }
+        
+        private void insertToClientlogin(String idc,String login,String passw){
+            String query ="insert into loginclient(idc,login,password) values('"+idc+"','"+login+"','"+passw+"');";
+            
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                
+                CloseConnection();
+            }
         }
         
 }
