@@ -93,6 +93,10 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel33 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
         jTextField18 = new javax.swing.JTextField();
+        jTextField19 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -329,12 +333,40 @@ public class MainWindow extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("client detail", jPanel1);
 
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
+
         jLabel33.setText("select account:");
 
         jLabel34.setText("Balance:");
 
         jTextField18.setEditable(false);
-        jTextField18.setText("jTextField18");
+
+        jTextField19.setText("0");
+
+        jButton1.setText("+add");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("-submit");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("create new account");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -346,9 +378,17 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jLabel33)
                     .addComponent(jLabel34))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField18, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField18, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField19, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jButton2))))
                 .addContainerGap(408, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -362,7 +402,15 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34)
                     .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(203, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("account", jPanel6);
@@ -692,7 +740,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         String msg = "<html><u><b>GLBank staf application</b></u></html>\n"+
                 "Author: Tomas Stejskal\n"+
-                "Version: 0.1\n"+
+                "Version: 0.3\n"+
                 "year of made: 2017\n"+
                 "your ID: "+user_ID;
         if (isAdmin){
@@ -794,6 +842,82 @@ public class MainWindow extends javax.swing.JFrame {
             System.out.println("INvalid");
         }
     }//GEN-LAST:event_button1ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        try{
+            WorkWithAccount wwa = new WorkWithAccount();
+            jTextField18.setText(wwa.getBalance(jComboBox2.getSelectedItem().toString()));
+        }catch(Exception e){
+        }
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    //add to balance
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        boolean isValidNumber = false;
+        double value = 0;
+        if(jComboBox2.getSelectedItem() == null){
+            JOptionPane.showMessageDialog(null,"Account is not selected","Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try{
+            value = Double.valueOf(jTextField19.getText());
+            isValidNumber = true;
+        }catch(Exception e){
+            isValidNumber = false;
+        }
+        if(!isValidNumber){
+            JOptionPane.showMessageDialog(null,"Input must by a number","Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        value = Math.abs(value);
+        String msg = "do you want realy add "+value+" € to account?";
+        int dResult = JOptionPane.showConfirmDialog(null,msg,"warning",JOptionPane.YES_NO_OPTION);
+        if(dResult == JOptionPane.YES_OPTION){
+            WorkWithAccount wwa = new WorkWithAccount();
+            wwa.addToBalance(value, jComboBox2.getSelectedItem().toString());
+            jTextField19.setText("0");
+            jTextField18.setText(wwa.getBalance(jComboBox2.getSelectedItem().toString()));
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+    //submit from balance
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+                boolean isValidNumber = false;
+        double value = 0;
+        if(jComboBox2.getSelectedItem() == null){
+            JOptionPane.showMessageDialog(null,"Account is not selected","Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try{
+            value = Double.valueOf(jTextField19.getText());
+            isValidNumber = true;
+        }catch(Exception e){
+            isValidNumber = false;
+        }
+        if(!isValidNumber){
+            JOptionPane.showMessageDialog(null,"Input must by a number","Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        value = Math.abs(value);
+        String msg = "do you want realy submit "+value+" € from account?";
+        int dResult = JOptionPane.showConfirmDialog(null,msg,"warning",JOptionPane.YES_NO_OPTION);
+        if(dResult == JOptionPane.YES_OPTION){
+            WorkWithAccount wwa = new WorkWithAccount();
+            wwa.submitFromBalance(value, jComboBox2.getSelectedItem().toString());
+            jTextField19.setText("0");
+            jTextField18.setText(wwa.getBalance(jComboBox2.getSelectedItem().toString()));
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+    //create new accoun
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String msg = "do you want realy create the new account?";
+        int dResult = JOptionPane.showConfirmDialog(null,msg,"warning",JOptionPane.YES_NO_OPTION);
+        if(dResult == JOptionPane.YES_OPTION){
+            WorkWithAccount wwa = new WorkWithAccount();
+            String[] idc = jComboBox1.getSelectedItem().toString().split(" ");
+            wwa.createNewAccount(idc[2]);
+            initAccountCombobox();
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void initCombobox(){
         DatabaseInterface dbi = new DatabaseInterface();
@@ -900,6 +1024,9 @@ public class MainWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button button1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -963,6 +1090,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
+    private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;

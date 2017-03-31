@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -54,16 +55,118 @@ public class WorkWithAccount {
         public List<String> loadAccountsByIDC(String idc){
             List<String> result = new ArrayList<String>();
             String query = "select idAcc from accounts where idc = "+idc+";";
-            try{
-                Statement state = conn.createStatement();
-                ResultSet rs =  state.executeQuery(query);
-                while(rs.next()){
-                    result.add(rs.getString("idAcc"));
-                    System.out.println(result.get(0));
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    ResultSet rs =  state.executeQuery(query);
+                    while(rs.next()){
+                        String r = rs.getString("idAcc");
+                        result.add(r);
+                    }
+                }catch(Exception e){
+                    System.out.println(e.toString());
                 }
-            }catch(Exception e){
-                System.out.println(e.toString());
+                CloseConnection();
             }
             return result;
+        }
+        
+        public String getBalance(String idAcc){
+            String balance = "0";
+            String query = "select balance from accounts where idAcc = "+idAcc+";";
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    ResultSet rs =  state.executeQuery(query);
+                    if(rs.next()){
+                        balance = rs.getString("balance");
+                    }
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                
+             CloseConnection();
+            }
+            return balance;
+        }
+        
+        public void addToBalance(double sum,String idAcc){
+            String query = "update accounts set balance = balance + "+sum+" where idAcc = "+idAcc+";";
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                } 
+                CloseConnection();
+            }
+        }
+        
+        public void submitFromBalance(double sum,String idAcc){
+            String query = "update accounts set balance = balance - "+sum+" where idAcc = "+idAcc+";";
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                CloseConnection();
+            }
+        }
+        /**********************************************************************/
+        private boolean isAccIdUniqu(double idac){
+            String query = "select idAcc from accounts where idc = "+idac+";";
+            boolean isUnique = false;
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    ResultSet rs = state.executeQuery(query);
+                    if(rs.next()){
+                        isUnique = false;
+                    }else{
+                        isUnique = true;
+                    }
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                CloseConnection();
+            }
+            return isUnique;
+        }
+        
+        private double generateAccountID(){
+            
+            Random rand = new Random();
+            double idAcc = 0;
+            do{
+                String idAc = "";
+                idAc += (char) (rand.nextInt(8)+49);
+                for(int i =0;i<8;i++){
+                    idAc += (char) (rand.nextInt(10)+48);
+                }
+                idAcc = Double.valueOf(idAc);
+                idAcc *= 11;
+                idAcc = Math.abs(idAcc);
+            }while(!isAccIdUniqu(idAcc));
+            
+            return idAcc;
+        }
+        
+        
+        public void createNewAccount(String idc){
+            double idAcc = generateAccountID();
+            String query = "insert into accounts(idAcc,idc,balance) values("+idAcc+","+idc+",0);";
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                
+                CloseConnection();
+            }
         }
 }
