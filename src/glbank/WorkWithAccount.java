@@ -9,7 +9,9 @@ import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -90,7 +92,7 @@ public class WorkWithAccount {
             return balance;
         }
         
-        public void addToBalance(double sum,String idAcc){
+        public void addToBalance(double sum,String idAcc,String id_client,String id_emp,String bank_code){
             String query = "update accounts set balance = balance + "+sum+" where idAcc = "+idAcc+";";
             if(OpenConnetion()){
                 try{
@@ -101,9 +103,10 @@ public class WorkWithAccount {
                 } 
                 CloseConnection();
             }
+            archive_transaction(sum,idAcc,id_emp,bank_code);
         }
         
-        public void submitFromBalance(double sum,String idAcc){
+        public void submitFromBalance(double sum,String idAcc,String id_client,String id_emp,String bank_code){
             String query = "update accounts set balance = balance - "+sum+" where idAcc = "+idAcc+";";
             if(OpenConnetion()){
                 try{
@@ -114,6 +117,7 @@ public class WorkWithAccount {
                 }
                 CloseConnection();
             }
+            archive_transaction(-sum,idAcc,id_emp,bank_code);
         }
         /**********************************************************************/
         private boolean isAccIdUniqu(double idac){
@@ -136,8 +140,7 @@ public class WorkWithAccount {
             return isUnique;
         }
         
-        private double generateAccountID(){
-            
+        private double generateAccountID(){  
             Random rand = new Random();
             double idAcc = 0;
             do{
@@ -154,7 +157,10 @@ public class WorkWithAccount {
             return idAcc;
         }
         
-        
+        /**
+         * method which create a new account
+         * @param idc 
+         */
         public void createNewAccount(String idc){
             double idAcc = generateAccountID();
             String query = "insert into accounts(idAcc,idc,balance) values("+idAcc+","+idc+",0);";
@@ -166,6 +172,23 @@ public class WorkWithAccount {
                     System.out.println(e.toString());
                 }
                 
+                CloseConnection();
+            }
+        }
+        
+        private void archive_transaction(double ammount,String idAcc,String id_emp,String bank_code){
+            Date dTime = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String datStr = sdf.format(dTime);
+            String query = "insert into bank_transaction(amount,trans_datetime,idemp,dest_acc,dest_code,src_acc,src_code,description) "
+                         + "values("+ammount+",'"+datStr+"','"+id_emp+"','"+idAcc+"','"+bank_code+"','0','0','cash operation')";
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
                 CloseConnection();
             }
         }

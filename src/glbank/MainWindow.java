@@ -845,8 +845,13 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         try{
+            if(jComboBox2.getSelectedItem() == null){
+                jTextField18.setText("");
+                return;
+            }
             WorkWithAccount wwa = new WorkWithAccount();
-            jTextField18.setText(wwa.getBalance(jComboBox2.getSelectedItem().toString()));
+            String[] accId = jComboBox2.getSelectedItem().toString().split("/");
+            jTextField18.setText(wwa.getBalance(accId[0]));
         }catch(Exception e){
         }
     }//GEN-LAST:event_jComboBox2ActionPerformed
@@ -874,9 +879,12 @@ public class MainWindow extends javax.swing.JFrame {
         int dResult = JOptionPane.showConfirmDialog(null,msg,"warning",JOptionPane.YES_NO_OPTION);
         if(dResult == JOptionPane.YES_OPTION){
             WorkWithAccount wwa = new WorkWithAccount();
-            wwa.addToBalance(value, jComboBox2.getSelectedItem().toString());
+            String[] accId = jComboBox2.getSelectedItem().toString().split("/");
+            String[] client_id = jComboBox1.getSelectedItem().toString().split(" ");
+            wwa.addToBalance(value,accId[0],client_id[2],String.valueOf(user_ID),accId[1]);
             jTextField19.setText("0");
-            jTextField18.setText(wwa.getBalance(jComboBox2.getSelectedItem().toString()));
+            accId = jComboBox2.getSelectedItem().toString().split("/");
+            jTextField18.setText(wwa.getBalance(accId[0]));
         }
     }//GEN-LAST:event_jButton1ActionPerformed
     //submit from balance
@@ -897,14 +905,22 @@ public class MainWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Input must by a number","Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        double actual_value = Double.valueOf(jTextField18.getText());
+        if(actual_value - value < 0){
+            JOptionPane.showMessageDialog(null,"negative.operation.err","Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         value = Math.abs(value);
         String msg = "do you want realy submit "+value+" € from account?";
         int dResult = JOptionPane.showConfirmDialog(null,msg,"warning",JOptionPane.YES_NO_OPTION);
         if(dResult == JOptionPane.YES_OPTION){
             WorkWithAccount wwa = new WorkWithAccount();
-            wwa.submitFromBalance(value, jComboBox2.getSelectedItem().toString());
+            String[] accId = jComboBox2.getSelectedItem().toString().split("/");
+            String[] client_id = jComboBox1.getSelectedItem().toString().split(" ");
+            wwa.submitFromBalance(value,accId[0],client_id[2],String.valueOf(user_ID),accId[1]);
             jTextField19.setText("0");
-            jTextField18.setText(wwa.getBalance(jComboBox2.getSelectedItem().toString()));
+            accId = jComboBox2.getSelectedItem().toString().split("/");
+            jTextField18.setText(wwa.getBalance(accId[0]));
         }
     }//GEN-LAST:event_jButton2ActionPerformed
     //create new accoun
@@ -1017,7 +1033,7 @@ public class MainWindow extends javax.swing.JFrame {
         jComboBox2.removeAllItems();
         List<String> acc_id = wwa.loadAccountsByIDC(idc[2]);
         for (int i=0;i<acc_id.size();i++){
-            jComboBox2.addItem(acc_id.get(i));
+            jComboBox2.addItem(acc_id.get(i)+"/3801");
         }
         //jComboBox2.setSelectedIndex(0);
     }
