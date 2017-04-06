@@ -99,6 +99,13 @@ public class MainWindow extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
+        jLabel35 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jLabel36 = new javax.swing.JLabel();
+        jComboBox4 = new javax.swing.JComboBox<>();
+        jButton4 = new javax.swing.JButton();
+        jLabel37 = new javax.swing.JLabel();
+        jCheckBox3 = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jTextField10 = new javax.swing.JTextField();
@@ -428,15 +435,65 @@ public class MainWindow extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("transaction", jPanel7);
 
+        jLabel35.setText("Account:");
+
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
+
+        jLabel36.setText("Card:");
+
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButton4.setText("create newcard");
+
+        jLabel37.setText("is card active:");
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 691, Short.MAX_VALUE)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addComponent(jLabel35)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel36)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton4))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel37)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCheckBox3)))
+                .addContainerGap(306, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel35)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel36)
+                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel37)
+                    .addComponent(jCheckBox3))
+                .addContainerGap(185, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("cards", jPanel8);
@@ -852,6 +909,7 @@ public class MainWindow extends javax.swing.JFrame {
             WorkWithAccount wwa = new WorkWithAccount();
             String[] accId = jComboBox2.getSelectedItem().toString().split("/");
             jTextField18.setText(wwa.getBalance(accId[0]));
+            jComboBox3.setSelectedIndex(jComboBox2.getSelectedIndex());
         }catch(Exception e){
         }
     }//GEN-LAST:event_jComboBox2ActionPerformed
@@ -934,6 +992,13 @@ public class MainWindow extends javax.swing.JFrame {
             initAccountCombobox();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        try{
+            jComboBox2.setSelectedIndex(jComboBox3.getSelectedIndex());
+        }catch(Exception e){
+        }
+    }//GEN-LAST:event_jComboBox3ActionPerformed
 
     private void initCombobox(){
         DatabaseInterface dbi = new DatabaseInterface();
@@ -1031,9 +1096,11 @@ public class MainWindow extends javax.swing.JFrame {
         WorkWithAccount wwa = new WorkWithAccount();
         String[] idc = jComboBox1.getSelectedItem().toString().split(" ");
         jComboBox2.removeAllItems();
+        jComboBox3.removeAllItems();
         List<String> acc_id = wwa.loadAccountsByIDC(idc[2]);
         for (int i=0;i<acc_id.size();i++){
             jComboBox2.addItem(acc_id.get(i)+"/3801");
+            jComboBox3.addItem(acc_id.get(i)+"/3801");
         }
         //jComboBox2.setSelectedIndex(0);
     }
@@ -1043,10 +1110,14 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> jComboBox4;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1076,6 +1147,9 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
