@@ -445,11 +445,26 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel36.setText("Card:");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox4ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("create newcard");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel37.setText("is card active:");
+
+        jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -473,7 +488,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jButton4))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel37)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jCheckBox3)))
                 .addContainerGap(306, Short.MAX_VALUE))
         );
@@ -490,9 +505,9 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jLabel36)
                     .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel37)
-                    .addComponent(jCheckBox3))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox3)
+                    .addComponent(jLabel37))
                 .addContainerGap(185, Short.MAX_VALUE))
         );
 
@@ -933,7 +948,7 @@ public class MainWindow extends javax.swing.JFrame {
             return;
         }
         value = Math.abs(value);
-        String msg = "do you want realy add "+value+" € to account?";
+        String msg = "Do you relly want add "+value+" € to account?";
         int dResult = JOptionPane.showConfirmDialog(null,msg,"warning",JOptionPane.YES_NO_OPTION);
         if(dResult == JOptionPane.YES_OPTION){
             WorkWithAccount wwa = new WorkWithAccount();
@@ -969,7 +984,7 @@ public class MainWindow extends javax.swing.JFrame {
             return;
         }
         value = Math.abs(value);
-        String msg = "do you want realy submit "+value+" € from account?";
+        String msg = "Do you relly want submit "+value+" € from account?";
         int dResult = JOptionPane.showConfirmDialog(null,msg,"warning",JOptionPane.YES_NO_OPTION);
         if(dResult == JOptionPane.YES_OPTION){
             WorkWithAccount wwa = new WorkWithAccount();
@@ -983,7 +998,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
     //create new accoun
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        String msg = "do you want realy create the new account?";
+        String msg = "Do you relly want create the new account?";
         int dResult = JOptionPane.showConfirmDialog(null,msg,"warning",JOptionPane.YES_NO_OPTION);
         if(dResult == JOptionPane.YES_OPTION){
             WorkWithAccount wwa = new WorkWithAccount();
@@ -996,9 +1011,65 @@ public class MainWindow extends javax.swing.JFrame {
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
         try{
             jComboBox2.setSelectedIndex(jComboBox3.getSelectedIndex());
+            initCardCombobx();
         }catch(Exception e){
         }
     }//GEN-LAST:event_jComboBox3ActionPerformed
+//create new card
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if(jComboBox3.getSelectedItem() == null){
+            JOptionPane.showMessageDialog(null,"Account is not selected","Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String msg = "Do you relly want create the new credit card?";
+        int dResult = JOptionPane.showConfirmDialog(null,msg,"warning",JOptionPane.YES_NO_OPTION);
+        if(dResult == JOptionPane.YES_OPTION){
+            WorkWithCard wwc = new WorkWithCard();
+        String[] idAcc = jComboBox3.getSelectedItem().toString().split("/");
+        wwc.createNewCard(idAcc[0]);
+        initAccountCombobox();
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+//card combobox
+    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
+        try{
+            WorkWithCard wwc = new WorkWithCard();
+            CardContent cc = wwc.getCartInfo(jComboBox4.getSelectedItem().toString());
+            if(cc.isBlocked){
+                jCheckBox3.setSelected(false);
+            }else{
+                jCheckBox3.setSelected(true);
+            }
+        }catch(Exception e){   
+        } 
+    }//GEN-LAST:event_jComboBox4ActionPerformed
+//is card active checbox
+    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
+        if(jComboBox4.getSelectedItem() == null){
+            return;
+        }
+        boolean status = !jCheckBox3.isSelected();
+        jCheckBox3.setSelected(status);
+        if(status){
+            String msg = "Do you really want DEACTIVATE credit card?";
+            int dResult = JOptionPane.showConfirmDialog(null,msg,"warning",JOptionPane.YES_NO_OPTION);
+            if(dResult == JOptionPane.YES_NO_OPTION){
+                //deactivate card
+                jCheckBox3.setSelected(!status);
+            }else{
+                jCheckBox3.setSelected(status);
+            }
+        }else{
+            String msg = "Do you really want ACTIVATE credit card?";
+            int dResult = JOptionPane.showConfirmDialog(null,msg,"warning",JOptionPane.YES_NO_OPTION);
+            if(dResult == JOptionPane.YES_NO_OPTION){
+                //activate card
+                jCheckBox3.setSelected(!status);
+            }else{
+                jCheckBox3.setSelected(status);
+            }
+        }
+    }//GEN-LAST:event_jCheckBox3ActionPerformed
 
     private void initCombobox(){
         DatabaseInterface dbi = new DatabaseInterface();
@@ -1103,6 +1174,16 @@ public class MainWindow extends javax.swing.JFrame {
             jComboBox3.addItem(acc_id.get(i)+"/3801");
         }
         //jComboBox2.setSelectedIndex(0);
+    }
+    
+    private void initCardCombobx(){
+        jComboBox4.removeAllItems();
+        WorkWithCard vcc = new WorkWithCard();
+        String[] s = jComboBox3.getSelectedItem().toString().split("/");
+        List<String> res = vcc.getCardList(s[0]);
+        for (String re : res) {
+            jComboBox4.addItem(re);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
