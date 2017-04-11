@@ -1054,7 +1054,7 @@ public class MainWindow extends javax.swing.JFrame {
             String msg = "Do you really want DEACTIVATE credit card?";
             int dResult = JOptionPane.showConfirmDialog(null,msg,"warning",JOptionPane.YES_NO_OPTION);
             if(dResult == JOptionPane.YES_NO_OPTION){
-                //deactivate card
+                new WorkWithCard().blockCard(jComboBox4.getSelectedItem().toString());
                 jCheckBox3.setSelected(!status);
             }else{
                 jCheckBox3.setSelected(status);
@@ -1063,7 +1063,7 @@ public class MainWindow extends javax.swing.JFrame {
             String msg = "Do you really want ACTIVATE credit card?";
             int dResult = JOptionPane.showConfirmDialog(null,msg,"warning",JOptionPane.YES_NO_OPTION);
             if(dResult == JOptionPane.YES_NO_OPTION){
-                //activate card
+                new WorkWithCard().unblockCard(jComboBox4.getSelectedItem().toString());
                 jCheckBox3.setSelected(!status);
             }else{
                 jCheckBox3.setSelected(status);

@@ -152,4 +152,36 @@ public class WorkWithCard {
             }
             return card_list;
         }
+        /**
+         * forced blocking card
+         * @param cardNumber 
+         */
+        public void blockCard(String cardNumber){
+            String query = "update cards set blocked='T' where cardnumber= "+cardNumber+" ;";
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }   
+                CloseConnection();
+            }
+        }
+        /**
+         * unlock card and reset wrong try counter
+         * @param cardNumber 
+         */
+        public void unblockCard(String cardNumber){
+            String query = "update cards set blocked='F',vrong_try=0 where cardnumber= "+cardNumber+" ;";
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                CloseConnection();
+            }
+        }
 }
