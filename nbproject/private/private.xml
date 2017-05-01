@@ -5,6 +5,7 @@
         <group>
             <file>file:/C:/Users/tomi/Documents/NetBeansProjects/GLBank/src/glbank/DatabaseInterface.java</file>
             <file>file:/C:/Users/tomi/Documents/NetBeansProjects/GLBank/src/glbank/MainWindow.java</file>
+            <file>file:/C:/Users/tomi/Documents/NetBeansProjects/GLBank/src/glbank/TransactionCore.java</file>
             <file>file:/C:/Users/tomi/Documents/NetBeansProjects/GLBank/src/glbank/GLBank.java</file>
             <file>file:/C:/Users/tomi/Documents/NetBeansProjects/GLBank/src/glbank/AddClientToDB.java</file>
             <file>file:/C:/Users/tomi/Documents/NetBeansProjects/GLBank/src/glbank/WorkWithCard.java</file>
@@ -13,6 +14,7 @@
             <file>file:/C:/Users/tomi/Documents/NetBeansProjects/GLBank/src/glbank/ChngePasswordDialog.java</file>
             <file>file:/C:/Users/tomi/Documents/NetBeansProjects/GLBank/src/glbank/WorkWithAccount.java</file>
             <file>file:/C:/Users/tomi/Documents/NetBeansProjects/GLBank/src/glbank/LoginWindow.java</file>
+            <file>file:/C:/Users/tomi/Documents/NetBeansProjects/GLBank/src/glbank/TransHistoryData.java</file>
         </group>
     </open-files>
 </project-private>

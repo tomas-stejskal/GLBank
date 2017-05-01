@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -35,6 +36,7 @@ public class MainWindow extends javax.swing.JFrame {
         this.logWin = lo;
         setName();
         initCombobox();
+        getTransactionHisroty();
     }
     
     private void setName(){
@@ -107,6 +109,7 @@ public class MainWindow extends javax.swing.JFrame {
         jTextField21 = new javax.swing.JTextField();
         jTextField23 = new javax.swing.JTextField();
         jLabel40 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jLabel35 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
@@ -145,6 +148,9 @@ public class MainWindow extends javax.swing.JFrame {
         jTextField17 = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
         button1 = new java.awt.Button();
+        jPanel10 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
@@ -161,6 +167,8 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel1.setText("jLabel1");
 
         jLabel2.setText("jLabel2");
+
+        jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel9.setText("postcode:");
 
@@ -426,24 +434,14 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jButton2))
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addContainerGap(200, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("account", jPanel6);
 
-        jTextField20.setText("jTextField20");
-
         jLabel39.setText("ammout:");
 
-        jTextField24.setText("jTextField24");
-
-        jTextField22.setText("jTextField22");
-
         jLabel38.setText("from:");
-
-        jTextField21.setText("jTextField21");
-
-        jTextField23.setText("jTextField23");
 
         jLabel40.setText("to:");
 
@@ -456,23 +454,24 @@ public class MainWindow extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addComponent(jLabel38)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel9Layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
+                                .addGap(35, 35, 35)
                                 .addComponent(jLabel39)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel40)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField21, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                    .addComponent(jTextField24))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -495,21 +494,34 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jButton5.setText("confirm transaction");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap(192, Short.MAX_VALUE)
+                .addContainerGap(219, Short.MAX_VALUE)
                 .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addContainerGap(181, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton5)
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(60, 60, 60)
                 .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 196, Short.MAX_VALUE)
+                .addComponent(jButton5)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("transaction", jPanel7);
@@ -587,7 +599,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBox3)
                     .addComponent(jLabel37))
-                .addContainerGap(185, Short.MAX_VALUE))
+                .addContainerGap(295, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("cards", jPanel8);
@@ -787,6 +799,44 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("new client", jPanel2);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ammount", "date time", "descripsion", "target", "source", "target code", "source code"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jScrollPane1.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("transacion history", jPanel10);
 
         jLabel3.setText("Clients:");
 
@@ -1037,6 +1087,7 @@ public class MainWindow extends javax.swing.JFrame {
             jTextField19.setText("0");
             accId = jComboBox2.getSelectedItem().toString().split("/");
             jTextField18.setText(wwa.getBalance(accId[0]));
+            getTransactionHisroty();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
     //submit from balance
@@ -1073,6 +1124,7 @@ public class MainWindow extends javax.swing.JFrame {
             jTextField19.setText("0");
             accId = jComboBox2.getSelectedItem().toString().split("/");
             jTextField18.setText(wwa.getBalance(accId[0]));
+            getTransactionHisroty();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
     //create new accoun
@@ -1149,6 +1201,42 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jCheckBox3ActionPerformed
+
+    //confirm transaction
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if(jTextField20.getText().equals(jTextField23.getText())){
+            JOptionPane.showMessageDialog(null,"source and target account is same","Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        TransactionCore tc = new TransactionCore();
+        int result = tc.checkValidOfTransaction(jTextField20.getText(), jTextField21.getText(), jTextField22.getText(), jTextField23.getText(), jTextField24.getText());
+        System.out.println("transaction result: "+result);
+        if(result == 1){
+            JOptionPane.showMessageDialog(null,"surce account is not exist","Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(result == 2){
+            JOptionPane.showMessageDialog(null,"target account is not exist","Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(result == 3){
+            JOptionPane.showMessageDialog(null,"surce account hawe lack of ammount to realize transaction","Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        //String from_no,String from_code, String ammount, String to_no, String to_code, String idEmp
+        tc.doTransaction(jTextField20.getText(),jTextField21.getText(), jTextField22.getText(), jTextField23.getText(), jTextField24.getText(), String.valueOf(user_ID));
+        jTextField20.setText("");
+        jTextField21.setText("");
+        jTextField22.setText("");
+        jTextField23.setText("");
+        jTextField24.setText("");
+        
+        WorkWithAccount wwa = new WorkWithAccount();
+        String[] idAcc = jComboBox2.getSelectedItem().toString().split("/");
+        String balance = wwa.getBalance(idAcc[0]);
+        jTextField18.setText(balance);
+        getTransactionHisroty();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void initCombobox(){
         DatabaseInterface dbi = new DatabaseInterface();
@@ -1264,6 +1352,26 @@ public class MainWindow extends javax.swing.JFrame {
             jComboBox4.addItem(re);
         }
     }
+    
+    
+    private void getTransactionHisroty(){
+        TransactionCore tc = new TransactionCore();
+        List<TransHistoryData> data = tc.getTransactionhistory(String.valueOf(user_ID));
+        //ammount, date time, description, target, source, target code, souce code;
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int rowCount = model.getRowCount();
+        for (int i = rowCount-1; i >=0;i--){
+            model.removeRow(i);
+        }
+        
+        for (int i =0; i<data.size();i++){
+            //System.out.println(data.get(i).ammount+" "+data.get(i).src_acc+" "+data.get(i).trans_date_time);
+            model.addRow(new Object[]{data.get(i).ammount,data.get(i).trans_date_time,
+            data.get(i).description,data.get(i).dest_acc,data.get(i).src_acc,
+            data.get(i).dect_code,data.get(i).src_code} );
+        }
+       
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button button1;
@@ -1271,6 +1379,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
@@ -1325,6 +1434,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1333,7 +1443,9 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;

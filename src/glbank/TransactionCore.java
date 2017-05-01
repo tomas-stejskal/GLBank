@@ -9,6 +9,10 @@ import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -114,7 +118,15 @@ public class TransactionCore {
             }
             return hasMoney;
         }
-        
+        /**
+         * input validator
+         * @param from_no
+         * @param from_code
+         * @param ammount
+         * @param to_no
+         * @param to_code
+         * @return 
+         */
         public int checkValidOfTransaction(String from_no,String from_code, String ammount, String to_no, String to_code){
             if(!isSourceAccountExist(from_no, from_code)){
                 return 1; //sourse account not exist
@@ -129,4 +141,100 @@ public class TransactionCore {
             return 0;
         }
         /*--------------------------------------------------------------------*/
+        
+        /**
+         * realize transaction
+         * @param from_no
+         * @param from_code
+         * @param ammount
+         * @param to_no
+         * @param to_code 
+         * @param idEmp
+         */
+        public void doTransaction(String from_no,String from_code, String ammount, String to_no, String to_code, String idEmp){
+            submitFromSource(from_no,ammount);
+            addToTarget(to_no,ammount);
+            createArchiveRecord(from_no,from_code,ammount,to_no,to_code,idEmp);
+        }
+        
+        private void submitFromSource(String from_no,String ammount){
+            double amm = Double.valueOf(ammount);
+            amm = Math.abs(amm);
+            String query = "update accounts set balance = balance - "+amm+" where idAcc = "+from_no+";";
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                CloseConnection();
+            }
+        }
+        
+        private void addToTarget(String to_no,String ammount){
+            double amm = Double.valueOf(ammount);
+            amm = Math.abs(amm);
+            String query = "update accounts set balance = balance + "+amm+" where idAcc = "+to_no+";";
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                CloseConnection();
+            }
+        }
+        
+        private void createArchiveRecord(String from_no,String from_code, String ammount, String to_no, String to_code, String idEmp){
+            Date dTime = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String datStr = sdf.format(dTime);
+            if(to_code.equals("")){
+                to_code = "0";
+            }
+            if(from_code.equals("")){
+                from_code = "0";
+            }
+            
+            String query = "insert into bank_transaction(amount,trans_datetime,description,idemp,dest_acc,src_acc,dest_code,src_code) "
+                    + "values('"+ammount+"','"+datStr+"','bank transaction','"+idEmp+"','"+to_no+"','"+from_no+"','"+to_code+"','"+from_code+"');"; 
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    state.executeUpdate(query);
+                }catch(Exception e){
+                    System.out.println(e.toString());
+                }
+                CloseConnection();
+            }
+        }
+        
+        public List<TransHistoryData> getTransactionhistory(String idEmp){
+            List<TransHistoryData> data = new ArrayList();
+            String query = "select * from bank_transaction where idemp= "+idEmp+";";
+            if(OpenConnetion()){
+                try{
+                    Statement state = conn.createStatement();
+                    ResultSet rs = state.executeQuery(query);
+                    while(rs.next()){
+                        TransHistoryData t = new TransHistoryData();
+                        t.ammount = rs.getString("amount");
+                        t.dect_code = rs.getString("dest_code");
+                        t.description = rs.getString("description");
+                        t.dest_acc = rs.getString("dest_acc");
+                        t.src_acc = rs.getString("src_acc");
+                        t.src_code = rs.getString("dest_code");
+                        t.trans_date_time = rs.getString("trans_datetime");
+                        
+                        data.add(t);
+                    }
+                }catch(Exception ex){
+                    System.out.println(ex.toString());
+                }
+                CloseConnection();
+            }
+            return data;
+        }
 }
